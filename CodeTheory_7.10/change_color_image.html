@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Change color - Nguyễn Hoàng Đức</title>
+    <script>
+            function change_color(v)
+            {
+                document.getElementById("div_color").style=
+                        "width: 100%; height: 50px; background-color:" +v
+            }
+            function change_image(link) {
+            document.getElementById("avatar").src = link;
+        }
+        </script>
+    </head>
+    <body>
+        <form name="frm_color">
+        <select name="combo_color" onchange="change_color(this.value)">
+            <option value="blue">Xanh lè</option>
+            <option value="red">Đỏ loét</option>
+            <option value="yellow">Vàng khè</option>
+        </select>
+        <div id="div_color" style="width: 100%; height: 50px; background-color: pink;">
+
+        </div>
+        </form>
+        <form name="frm_image">
+        <select name="combo_image" onchange="change_image(this.value)">
+            <option value="../K234111430_Exercise15/images/LVB1.jpg">Ông Obama</option>
+            <option value="../K234111430_Exercise15/images/LVB2.jpg">Ông Putin</option>
+            <option value="../K234111430_Exercise15/images/LVB3.jpg">Ông Kim Unun</option>
+            <option value="../K234111430_Exercise15/images/LVB4.jpg">Ông Hồ Cẩm Đào</option>
+        </select>
+        <br/><br/>
+        <img id="avatar" src="../K234111430_Exercise15/images/LVB1.jpg">
+    </form>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Registration - Nguyễn Hoàng Đức</title>
+    </head>
+    <body style="background-color: teal; 
+                color:white;">
+        <form name="Newborn Registration">
+            <header align="center">
+                <img src="../K234111430_Exercise51/Logo.gif"/>
+                <p style="font-size:40px; 
+                            font-family: Arial; 
+                            font-weight: bold;">
+                            Newborn Registration
+                </p>
+            </header>
+            <table>
+                <tr>
+                    <td>Date:</td>
+                    <td>
+                        <input type="date" name="date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1) Infant's first name:</td>
+                    <td>
+                        <input type="text" name="firstnameofInfant"/>
+                        Last: 
+                        <input type="text" name="lastnameofInfant"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2) Medical Record #:</td>
+                    <td>
+                        <input type="text" name="medicalRecord"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3) Date of birth:</td>
+                    <td>
+                        <input type="date" name="DateOfBirth"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4) Birth weight:</td>
+                    <td>
+                        <input type="number" name="weight"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5) APGAR score:</td>
+                    <td>
+                        <input type="number" name="score"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6) Mother's first name:</td>
+                    <td>
+                        <input type="text" name="firstnameofMom"/>
+                        Last: 
+                        <input type="text" name="lastnameofMom"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7) Father's first name:</td>
+                    <td>
+                        <input type="text" name="firstnameofDad"/>
+                        Last: 
+                        <input type="text" name="lastnameofDad"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">8) Physician (check all that apply:)</td>
+                    <td>
+                        <select name="physician" size="4" multiple>
+                            <option value="1">Dr.Warren Albert</option>
+                            <option value="2">Dr.Maria Alvarez</option>
+                            <option value="3">Dr.Karen Brinkman</option>
+                            <option value="4">Dr.Micheal Kerry</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td colspan="2">
+                        <input type="button" value="Register" onclick="alert('Thanks for your registration')"/>
+                        <input type="reset" value="Cancel"/>
+                    </td>
+                </tr>
+        </form> 
+    </body>
+</html>

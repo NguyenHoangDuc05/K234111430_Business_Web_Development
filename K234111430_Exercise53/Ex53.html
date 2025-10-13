@@ -1,0 +1,134 @@
+<html>
+<head>
+    <title>Exercise 53 - Nguyễn Hoàng Đức</title>
+    <style>
+        form {
+            margin: 0 auto;
+            width: 90%;
+            height: auto;
+            border: 1px solid red;
+        }
+
+        table {
+            text-align: center;
+            width: 100%;
+            height: auto;
+        }
+
+        td {
+            font-size: 1.25rem;
+            text-align: center;
+        }
+
+        td input {
+            font-size: 1.25rem;
+            width: 90%;
+            display: inline-block;
+        }
+
+        td.special {
+            text-align: right;
+        }
+
+        .footer {
+            text-align: right;
+        }
+
+        .footer input {
+            font-size: 1.25rem;
+            width: 20%;
+        }
+
+        input[type="submit"] {
+            width: 80px;
+            background-color: orange;
+            border-color: darkred;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: darkorange;
+        }
+
+        input[type="number"] {
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <form name="product" action="action.html" method="get" id="main">
+        <table cellspacing="8">
+            <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th> Item table</th>
+            </tr>
+            <tr>
+                <td>C112</td>
+                <td>Mouse</td>
+                <td id="price_1">19.95$</td>
+                <td>
+                    <input class="quantity"
+                           type="number"
+                           id="quantity_1"
+                           name="Quantity_1"/>
+                </td>
+                <td class="special">
+                    <input type="text" id="item_1" name="Item_1"/>
+                </td>
+            </tr>
+            <tr>
+                <td>B124</td>
+                <td>Keyboard US</td>
+                <td id="price_2">29.95$</td>
+                <td>
+                    <input class="quantity"
+                           type="number"
+                           id="quantity_2"
+                           name="Quantity_2"/>
+                </td>
+                <td class="special">
+                    <input type="text" id="item_2" name="Item_2"/>
+                </td>
+            </tr>
+            <tr>
+                <td>U125</td>
+                <td>USB KingMax</td>
+                <td id="price_3">39.95$</td>
+                <td>
+                    <input class="quantity"
+                           type="number"
+                           id="quantity_3"
+                           name="Quantity_3" />
+                </td>
+                <td class="special">
+                    <input type="text" id="item_3" name="Item_3"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="footer">
+                    Total
+                </td>
+                <td class="special">
+                    <input id="total" type="text" name="Total"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="footer">
+                    <input type="submit" name="sum" id="sum" value="SUM" onclick="getTotal()"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

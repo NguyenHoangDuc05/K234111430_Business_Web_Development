@@ -1,0 +1,164 @@
+<html>
+<head>
+    <title> Dom 3 - Nguyễn Hoàng Đức </title>
+    <script type="text/javascript"> 
+        var dataset =[
+            {
+                ID: "P01",
+                Name: "Coca",
+                Quantity:15,
+                Price: 100000,
+                Photo: "coca.jpg"
+            },
+            {
+                ID: "P02",
+                Name: "Sprite",
+                Quantity:12,
+                Price: 144000,
+                Photo: "sprite.jpg"
+            },
+            {
+                ID: "P03",
+                Name: "Sting",
+                Quantity:6,
+                Price:60000,
+                Photo: "sting.jpg"
+            },
+            {
+                ID: "P04",
+                Name: "Fanta",
+                Quantity:10,
+                Price: 170000,
+                Photo: "Fanta.jpg"
+            },
+            {
+                ID: "P05",
+                Name: "Pepsi",
+                Quantity:10,
+                Price: 300000,
+                Photo: "pepsi.jpg"
+            }
+        ]
+    </script>
+</head>
+<body>
+    <table border="1">
+        <caption> List of Products: </caption>
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Name </th>
+                <th> Quantity </th>
+                <th> Price </th>
+                <th> Photo </th>
+                <th> Actions </th>
+            </tr>
+        </thead>
+        <tbody id="product_tbody">
+
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        function display_products_table()
+        {
+            // Get product_tbody element:
+            var product_tbody = document.getElementById("product_tbody");
+            
+            // Loop through all items:
+            for (var i = 0; i < dataset.length; i++)
+            {
+                // Get a product by index:
+                var product = dataset[i];
+                // Create a new tr (row)
+                var row = document.createElement("tr");
+                // Create 6 td(s)
+                var td_id = document.createElement("td");
+                var td_name = document.createElement("td");
+                var td_quantity = document.createElement("td");  
+                var td_price = document.createElement("td");
+                var td_photo = document.createElement("td");
+                var td_action = document.createElement("td");
+                
+                // Assign values for each td
+                td_id.innerText = product.ID;
+                td_name.innerText = product.Name;
+                td_quantity.innerText = product.Quantity;  
+                td_price.innerText = product.Price;
+                //td_photo.innerText="<later.....>"
+                img_p=document.createElement("img")
+                img_p.setAttribute("src","../images/"+product.Photo)
+                img_p.setAttribute("width","100")
+                img_p.setAttribute("height","120")
+                img_p.setAttribute("title", "click here to view detail...")
+                img_p.setAttribute("style","cursor:pointer")
+                //push img into td_photo
+                td_photo.appendChild(img_p)
+                //td_action.innerText="to be continue"
+                img_detail=document.createElement("img")
+                img_detail.setAttribute("src","../images/ic_detail.png")
+                img_detail.setAttribute("title","view detail")
+                img_detail.setAttribute("width","100")
+                img_detail.setAttribute("height","120")
+                img_detail.setAttribute("style","cursor:pointer")
+
+                img_detail.selected_product=product
+                img_detail.onclick=function()
+                {
+                    //get selected products
+                    p=this.selected_product
+                    //convert p object 
+                    stringJsonObject=JSON.stringify(p)
+                    //save
+                    localStorage.setItem("selected_product",stringJsonObject)
+                    //open detail page:
+                    window.open("detail.html","_self")
+                }
+                td_action.appendChild(img_detail)
+
+                img_edit=document.createElement("img")
+                img_edit.setAttribute("src","../images/ic_edit.png")
+                img_edit.setAttribute("title","edit product")
+                img_edit.setAttribute("width","100")
+                img_edit.setAttribute("height","120")
+                img_edit.setAttribute("style","cursor:pointer")
+                td_action.appendChild(img_edit)
+
+                img_delete=document.createElement("img")
+                img_delete.setAttribute("src","../images/ic_delete.png")
+                img_delete.setAttribute("title","delete product")
+                img_delete.setAttribute("width","100")
+                img_delete.setAttribute("height","120")
+                img_delete.setAttribute("style","cursor:pointer")
+                td_action.appendChild(img_delete)
+                // Save parent row for img_delete
+                img_delete.parent_row = row;  // Gán thuộc tính
+                
+                // Add onclick event for img_delete
+                img_delete.onclick = function() {
+                    var selected_row = this.parent_row;  
+                    var name = selected_row.querySelector('td:nth-child(2)').innerText;  
+                    if (confirm("Ê, muốn xóa ["+name+"] hã?")) {
+                        product_tbody.removeChild(selected_row);  
+                    }
+                };
+                
+                td_action.appendChild(img_delete);
+
+                // Add td(s) to row
+                row.appendChild(td_id);
+                row.appendChild(td_name);
+                row.appendChild(td_quantity); 
+                row.appendChild(td_price);
+                row.appendChild(td_photo);
+                row.appendChild(td_action);
+                
+                // Add row to product_tbody
+                product_tbody.appendChild(row);
+            }
+        }
+        
+        // Call the function
+        display_products_table();
+    </script>
+</body>
+</html>

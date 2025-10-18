@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>The quadratic equation - Nguyễn Hoàng Đức</title>
+        <style>
+            #title {
+                text-align:center;
+                background-color: aquamarine;
+            }
+            #hs {
+                width: 30%;
+            }
+            #result {
+                color: red;  /* Thêm dòng này để làm chữ đỏ */
+            }
+        </style>
+        <script>
+            function Process() {
+                var a = document.getElementById("firstNumber");
+                var b = document.getElementById("secondNumber");
+                var c = document.getElementById("thirdNumber");
+                var delta = b.value * b.value - 4 * a.value * c.value;
+                if (a.value == 0) {
+                    document.getElementById("result").value = "N/A";
+                } else if (delta == 0) {
+                    var x = -b.value / (2 * a.value);
+                    document.getElementById("result").value = "x1=x2= " + x;
+                } else if (delta < 0) {
+                    document.getElementById("result").value = "No result";
+                } else {
+                    var x1 = (-b.value - Math.sqrt(delta)) / (2 * a.value);
+                    var x2 = (-b.value + Math.sqrt(delta)) / (2 * a.value);
+                    document.getElementById("result").value = "x1 = " + x1 + ", x2 = " + x2;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form>
+            <table border="1">
+                <tr>
+                    <td colspan="2" id="title">The quadratic equation</td>
+                </tr>
+                <tr>
+                    <td id="hs"><input value="a:" /></td>
+                    <td><input type="number" id="firstNumber" /></td>
+                </tr>
+                <tr>
+                    <td id="hs"><input value="b:" /></td>
+                    <td><input type="number" id="secondNumber" /></td>
+                </tr>
+                <tr>
+                    <td id="hs"><input value="c:" /></td>
+                    <td><input type="number" id="thirdNumber" /></td>
+                </tr>
+                <tr>
+                    <td id="hs"><input value="Result:"/></td>
+                    <td><input id="result" readonly /></td>  <!-- Thêm readonly để không chỉnh sửa -->
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" onclick="Process()">Find Solution</button>
+                        <button type="reset">Clear</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

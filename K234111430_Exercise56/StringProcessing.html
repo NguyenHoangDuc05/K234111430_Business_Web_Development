@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <title>String Processing - Nguyễn Hoàng Đức</title>
+        <link rel="stylesheet" href="StyleSheet.css">
+        <script>
+            function countUpperCase() {
+                var s = document.getElementById("input").value.trim();
+                var numUpper = s.length - s.replace(/[A-Z]/g, "").length;
+                document.getElementById("result").value = numUpper;
+            }
+            function upperCase() {
+                var s = document.getElementById("input").value.trim();
+                var result = s.toUpperCase();
+                document.getElementById("result").value = result;
+            }
+            function lowerCase() {
+                var s = document.getElementById("input").value.trim();
+                var result = s.toLowerCase();
+                document.getElementById("result").value = result;
+            }
+            function countLowerCase() {
+                var s = document.getElementById("input").value.trim();
+                var numLower = s.replace(/[A-Z]/g, "").length;
+                document.getElementById("result").value = numLower;
+            }
+
+            function printWord() {
+                var s = document.getElementById("input").value.trim();
+                var result = "",
+                    i = 0;
+                for (; i < s.length; i++)
+                    result = result + s.substring(i, i + 1) + "\n";
+                document.getElementById("result").value = result;
+            }
+            function countWord() {
+                var s = document.getElementById("input").value;
+                var count = s.match(/\S+/g).length;
+                document.getElementById("result").value = count;
+            }
+            function countVowelAndConsonants() {
+                var s = document.getElementById("input").value.trim();
+                s = s.replace(/(.)(?=.*\1)/g, "");
+                var vowels = [];
+                vowels = s.match(/([aeiou])/gi);
+                var consonants = [];
+                consonants = s.match(/[^aeiou]/gi);
+                document.getElementById("result").value =
+                    " Print vowels:\n" + vowels + "\n" + "Consonnants:\n" + consonants;
+            }
+        </script>
+    </head>
+    <body>
+        <form action="https://www.w3schools.com/jsref/jsref_obj_string.asp">
+            <table>
+                <tr>
+                    <th colspan="2">
+                        <h1>Using String Processing functions</h1>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend><b><label for="input">Input Data:</label></b></legend>
+                            <textarea rows="5" cols="40" id="input"></textarea>
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset>
+                            <legend><b><lable for="result">Result:</lable></b></legend>
+                            <textarea rows="5" cols="40" id="result"></textarea>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="reset">Enter</button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="countUpperCase()">Count the number of uppercase characters</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" onclick="upperCase()">Uppercase display</button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="printWord()">Output one word per line</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" onclick="lowerCase()"> Lowercase display</button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="countWord()">Word count</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" onclick="countLowerCase()">Count the number of lowercase characters</button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="countVowelAndConsonants()">Print vowels, consonants</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button">W3C's String Processing Website</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

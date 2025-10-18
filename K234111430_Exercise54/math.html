@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Math function - Nguyễn Hoàng Đức </title>
+        <script type="text/javascript">
+            function max() {
+                a = parseFloat(document.getElementById("hsa").value)
+                b = parseFloat(document.getElementById("hsb").value)
+                c = parseFloat(document.getElementById("hsc").value)
+                max = Math.max(a, b, c)
+                result = document.getElementById("tdresult")
+                result.innerText = max
+            }
+            function min() {
+                a = parseFloat(document.getElementById("hsa").value)
+                b = parseFloat(document.getElementById("hsb").value)
+                c = parseFloat(document.getElementById("hsc").value)
+                min = Math.min(a, b, c)
+                result = document.getElementById("tdresult")
+                result.innerText = min
+            }
+            function sin() {
+                a = parseFloat(document.getElementById("hsa").value)
+                result = document.getElementById("tdresult")
+                result.innerText = Math.sin(a)
+                
+            }
+            function cos() {
+                a = parseFloat(document.getElementById("hsa").value)
+                result = document.getElementById("tdresult")
+                result.innerText = Math.cos(a)
+                
+            }
+            function exponential() {
+                a = parseFloat(document.getElementById("hsa").value)
+                b = parseFloat(document.getElementById("hsb").value)
+                result = document.getElementById("tdresult")
+                result.innerText = Math.pow(a, b)
+                
+            }
+        </script>
+    </head>
+    <body>
+        <form>
+            <table border="1">
+                <tr>
+                    <td>
+                        <label for="hsa">a:</label>
+                    </td>
+                    <td>
+                        <input type="number" name="hsa" id="hsa" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="hsb">b:</label>
+                    </td>
+                    <td>
+                        <input type="number" name="hsb" id="hsb" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="hsc">c:</label>
+                    </td>
+                    <td>
+                        <input type="number" name="hsc" id="hsc" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Result:</td>
+                    <td id="tdresult"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button value="MAX" type="button" onclick="max()">MAX</button>
+                        <button value="MIN" type="button" onclick="min()">MIN</button>
+                        <button value="sin(a)" type="button" onclick="sin()">sin(a)</button>
+                        <button value="cos(a)" type="button" onclick="cos()">cos(a)</button>
+                        <button value="a^b" type="button" onclick="exponential()">a^b</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

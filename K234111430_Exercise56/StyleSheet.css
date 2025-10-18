@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #1976D2;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+fieldset {
+    border: 2px solid #2196F3;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+legend {
+    color: #1976D2;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #2196F3;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    color: #0D47A1;
+}
+
+button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #1976D2;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border: 2px solid #2196F3;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #BBDEFB;
+}
+
+label {
+    color: #1976D2;
+    font-weight: bold;
+}

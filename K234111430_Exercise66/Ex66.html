@@ -1,0 +1,61 @@
+<html>
+<head>
+    <title>Nguyễn Hoàng Đức - K234111430</title>
+    <style>
+        table, tr, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table {
+            width: 50%;
+            font-size: 30px;
+        }
+
+        th {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <table id="table">
+        <thead>
+            <tr>
+                <th colspan="2">Student Information</th>
+            </tr>
+        </thead>
+        <tbody id="content"></tbody>
+    </table>
+
+    <script defer>
+        const xmlText =
+            "<student>" +
+            "<id>987456</id>" +
+            "<name>Marie Curie</name>" +
+            "<birthday>7/11/1867</birthday>" +
+            "<gender>Woman</gender>" +
+            "</student>";
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+        document.getElementById("content").innerHTML =
+            "<tr><td>Student ID:</td><td>" + xmlDoc.getElementsByTagName("id")[0].textContent + "</td></tr>" +
+            "<tr><td>Student Name:</td><td>" + xmlDoc.getElementsByTagName("name")[0].textContent + "</td></tr>" +
+            "<tr><td>Birthday:</td><td>" + xmlDoc.getElementsByTagName("birthday")[0].textContent + "</td></tr>" +
+            "<tr><td>Gender:</td><td>" + xmlDoc.getElementsByTagName("gender")[0].textContent + "</td></tr>";
+
+        const table = document.getElementById("table");
+        const rows = table.getElementsByTagName("tr");
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            row.addEventListener("mouseover", function () {
+                this.style.backgroundColor = "lightblue";
+                this.style.color = "white";
+            });
+            row.addEventListener("mouseout", function () {
+                this.style.backgroundColor = "white";
+                this.style.color = "black";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <title>VNExpress - RSS Kinh doanh - Nguyễn Hoàng Đức </title>
+  <style>
+    /* ====== RESET ====== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ====== BODY ====== */
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f6f7fb, #e9eef5);
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      background-color: #004aad;
+      color: white;
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    /* ====== SEARCH BAR ====== */
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 700px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #004aad;
+    }
+
+    .btn-refresh {
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .btn-refresh:hover {
+      background-color: #005ef7;
+    }
+
+    /* ====== STATUS ====== */
+    #status {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* ====== GRID ====== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 1100px;
+      margin: 25px auto;
+    }
+
+    /* ====== CARD ====== */
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .thumb {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background-color: #ddd;
+    }
+
+    .card-content {
+      padding: 14px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #004aad;
+      text-decoration: none;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .title:hover {
+      text-decoration: underline;
+      color: #0066ff;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    /* ====== FOOTER ====== */
+    footer {
+      background-color: #004aad;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto;
+      font-size: 14px;
+    }
+
+    /* ====== EMPTY ====== */
+    .empty {
+      color: #666;
+      text-align: center;
+      padding: 40px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>VNExpress • Tin tức Kinh doanh</h1>
+  </header>
+
+  <div class="search-bar">
+    <input id="search" class="search-input" placeholder="Tìm bài viết..." />
+    <button id="refresh" class="btn-refresh">Làm mới</button>
+  </div>
+  <p id="status">Đang tải dữ liệu...</p>
+
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" style="display:none;">Không có bài viết nào.</div>
+
+  <footer>
+    Nguồn: <a href="https://vnexpress.net/rss/kinh-doanh.rss" style="color:white;">VNExpress RSS - Kinh doanh</a>
+  </footer>
+
+  <script>
+    const FEED_URL = "https://vnexpress.net/rss/kinh-doanh.rss";
+    const PROXY = "https://api.allorigins.win/raw?url=" + encodeURIComponent(FEED_URL);
+
+    const grid = document.getElementById("grid");
+    const status = document.getElementById("status");
+    const empty = document.getElementById("empty");
+    const search = document.getElementById("search");
+    const refresh = document.getElementById("refresh");
+
+    async function fetchRSS() {
+      status.textContent = "Đang tải dữ liệu...";
+      grid.innerHTML = "";
+      empty.style.display = "none";
+
+      try {
+        const res = await fetch(PROXY);
+        const text = await res.text();
+        const xml = new DOMParser().parseFromString(text, "text/xml");
+        const items = xml.querySelectorAll("item");
+
+        let newsList = [];
+        items.forEach(item => {
+          const title = item.querySelector("title")?.textContent || "";
+          const link = item.querySelector("link")?.textContent || "#";
+          const pubDate = item.querySelector("pubDate")?.textContent || "";
+          const desc = item.querySelector("description")?.textContent || "";
+          const imgMatch = desc.match(/<img[^>]+src="([^"]+)"/);
+          const img = imgMatch ? imgMatch[1] : "";
+
+          const cleanDesc = desc.replace(/<[^>]*>/g, "").trim();
+          newsList.push({ title, link, pubDate, desc: cleanDesc, img });
+        });
+
+        render(newsList);
+        status.textContent = `Tải thành công ${newsList.length} bài.`;
+      } catch (error) {
+        console.error(error);
+        status.textContent = "Lỗi tải RSS!";
+      }
+    }
+
+    function render(list) {
+      grid.innerHTML = "";
+      if (list.length === 0) {
+        empty.style.display = "block";
+        return;
+      }
+
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        if (item.img) {
+          const img = document.createElement("img");
+          img.className = "thumb";
+          img.src = item.img;
+          card.appendChild(img);
+        }
+
+        const content = document.createElement("div");
+        content.className = "card-content";
+
+        const a = document.createElement("a");
+        a.className = "title";
+        a.href = item.link;
+        a.target = "_blank";
+        a.textContent = item.title;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = item.pubDate;
+
+        const p = document.createElement("p");
+        p.className = "desc";
+        p.textContent = item.desc;
+
+        content.appendChild(a);
+        content.appendChild(meta);
+        content.appendChild(p);
+        card.appendChild(content);
+
+        grid.appendChild(card);
+      });
+    }
+
+    refresh.addEventListener("click", fetchRSS);
+    search.addEventListener("input", () => {
+      const q = search.value.toLowerCase();
+      const cards = Array.from(document.querySelectorAll(".card"));
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? "flex" : "none";
+      });
+    });
+
+    fetchRSS();
+  </script>
+</body>
+</html>

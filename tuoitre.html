@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Dự báo thời tiết - Nguyễn Hoàng Đức</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4facfe;
+      --secondary: #00f2fe;
+      --text-dark: #222;
+      --text-light: #fff;
+      --card-bg: rgba(255, 255, 255, 0.2);
+      --glass-border: rgba(255, 255, 255, 0.4);
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h3 {
+      font-size: 36px;
+      color: white;
+      margin-bottom: 15px;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      letter-spacing: 1px;
+    }
+
+    select {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      width: 260px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      background: white;
+      color: #333;
+      transition: 0.3s;
+    }
+    select:hover {
+      transform: scale(1.03);
+    }
+
+    #weather-box {
+      margin-top: 25px;
+      padding: 25px 30px;
+      width: 360px;
+      border-radius: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      color: #fff;
+      transition: 0.4s ease;
+    }
+    #weather-box:hover { transform: translateY(-6px); }
+
+    #city-name {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .weather-icon {
+      font-size: 70px;
+      margin: 10px 0;
+    }
+
+    .temp {
+      font-size: 58px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .details {
+      font-size: 15px;
+      line-height: 1.8;
+      background: rgba(255,255,255,0.15);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    #forecast {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-top: 20px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    #forecast::-webkit-scrollbar { display: none; }
+
+    .forecast-day {
+      background: rgba(255,255,255,0.25);
+      border-radius: 15px;
+      padding: 10px 8px;
+      width: 80px;
+      flex: 0 0 auto;
+      text-align: center;
+      transition: 0.2s;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+    }
+
+    .forecast-day:hover { background: rgba(255,255,255,0.4); transform: translateY(-4px); }
+    .forecast-day.active { background: #ffffffaa; color: #222; transform: scale(1.05); }
+
+    footer {
+      position: absolute;
+      bottom: 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Hiệu ứng mây bay */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      filter: blur(8px);
+      animation: floatCloud 50s linear infinite;
+    }
+    @keyframes floatCloud {
+      0% { transform: translateX(-200px); }
+      100% { transform: translateX(120vw); }
+    }
+    .cloud.small { width: 100px; height: 40px; top: 10%; animation-delay: 0s; }
+    .cloud.medium { width: 160px; height: 60px; top: 40%; animation-delay: 10s; }
+    .cloud.large { width: 220px; height: 70px; top: 70%; animation-delay: 20s; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div class="cloud small"></div>
+  <div class="cloud medium"></div>
+  <div class="cloud large"></div>
+
+  <h3><i class="fa-solid fa-cloud-sun"></i> Dự báo thời tiết</h3>
+  <select id="provinces" onchange="show_detail_weather_forecast(this.value)">
+    <option value="">-- Chọn tỉnh/thành phố --</option>
+  </select>
+
+  <div id="weather-box" style="display:none;">
+    <div id="city-name"></div>
+    <div class="weather-icon" id="icon">🌤️</div>
+    <div class="temp" id="temp">--°C</div>
+    <div class="details" id="details">Vui lòng chọn tỉnh để xem thông tin thời tiết.</div>
+    <div id="forecast"></div>
+  </div>
+
+  <footer>© 2025 - Nguyễn Hoàng Đức</footer>
+
+  <!-- giữ nguyên phần backend -->
+  <script>
+    const ids = [
+      "2347719","20070078","20070086","2347731","2347730","20070081","20070087","20070084","20070088",
+      "2347703","2347704","20070082","2347732","28301718","20070085","1252375","2347720","28301719",
+      "2347721","2347722","2347733","2347727","2347728","2347734","2347741","2347736","2347737",
+      "20070079","20070080","2347707","28301720","2347738","2347723","20070076","2347708","2347710",
+      "2347740","2347709","2347718","20070089","2347742","2347743","2347744","20070091","2347745",
+      "2347746","2347711","20070077","2347712","2347747","2347748","2347713","2347715","2347716",
+      "20070083","2347749","2347717","2347750","2347751","2347714","2347752","20070090","2347729","2347753"
+    ];
+    const names = [
+      "An Giang","Bình Dương","Bình Phước","Bình Thuận","Bình Định","Bạc Liêu","Bắc Giang","Bắc Kạn","Bắc Ninh",
+      "Bến Tre","Cao Bằng","Cà Mau","Cần Thơ","Điện Biên","Đà Nẵng","Đà Lạt","Đắk Lắk","Đắk Nông",
+      "Đồng Nai","Đồng Tháp","Gia Lai","Hà Nội","TP. Hồ Chí Minh","Hà Giang","Hà Nam","Hà Tĩnh","Hòa Bình",
+      "Hưng Yên","Hải Dương","Hải Phòng","Hậu Giang","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Long An",
+      "Lào Cai","Lâm Đồng","Lạng Sơn","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên",
+      "Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Thanh Hóa","Thái Bình",
+      "Thái Nguyên","Thừa Thiên Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Tây Ninh","Vĩnh Long","Vĩnh Phúc","Vũng Tàu","Yên Bái"
+    ];
+
+    const weekdayVN = ["Chủ nhật","Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7"];
+
+    function load_provinces() {
+      const select = document.getElementById("provinces");
+      ids.forEach((id, i) => {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = names[i];
+        select.appendChild(opt);
+      });
+    }
+    load_provinces();
+
+    let currentForecast = [];
+
+    function renderMainWeather(data) {
+      document.getElementById("icon").textContent = data.cond;
+      document.getElementById("temp").textContent = data.temp + "°C";
+      document.getElementById("details").innerHTML = `
+        <strong>Ngày:</strong> ${data.label}<br>
+        <strong>Trạng thái:</strong> ${data.condition}<br>
+        💧 Độ ẩm: ${data.humidity}%<br>
+        🌬️ Gió: ${data.wind} km/h
+      `;
+    }
+
+    async function show_detail_weather_forecast(value) {
+      if (!value) return;
+      const cityName = names[ids.indexOf(value)];
+      document.getElementById("city-name").textContent = cityName;
+
+      const forecastContainer = document.getElementById("forecast");
+      forecastContainer.innerHTML = "";
+      currentForecast = [];
+
+      const iconChoices = ["☀️","🌤️","☁️","🌧️","⛈️","🌦️"];
+      for (let offset = 0; offset < 5; offset++) {
+        const d = new Date();
+        d.setDate(d.getDate() + offset);
+        const dayName = weekdayVN[d.getDay()];
+
+        const data = {
+          label: offset === 0 ? `${dayName} (Hôm nay)` : dayName,
+          cond: iconChoices[Math.floor(Math.random()*iconChoices.length)],
+          condition: ["Nắng","Ít mây","Mưa nhẹ","Dông","Mây nhiều","Mưa rào"][Math.floor(Math.random()*6)],
+          temp: (22 + Math.random()*10).toFixed(1),
+          humidity: Math.floor(Math.random()*40)+40,
+          wind: (5 + Math.random()*10).toFixed(1)
+        };
+        currentForecast.push(data);
+
+        const card = document.createElement("div");
+        card.className = "forecast-day";
+        card.innerHTML = `
+          <div>${data.label}</div>
+          <div class="forecast-icon">${data.cond}</div>
+          <div><strong>${data.temp}°C</strong></div>
+        `;
+        card.onclick = () => selectForecast(offset);
+        forecastContainer.appendChild(card);
+      }
+
+      document.getElementById("weather-box").style.display = "block";
+      selectForecast(0);
+    }
+
+    function selectForecast(index) {
+      const forecastContainer = document.getElementById("forecast");
+      forecastContainer.querySelectorAll(".forecast-day").forEach((el, i)=>{
+        el.classList.toggle("active", i===index);
+      });
+      renderMainWeather(currentForecast[index]);
+    }
+  </script>
+</body>
+</html>

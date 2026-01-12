@@ -1,0 +1,30 @@
+<div class="box">
+  <div class="title">Chuyển đổi Dương lịch thành Âm lịch</div>
+
+  <div class="row">
+    <select [(ngModel)]="selectedDay">
+      <option *ngFor="let d of days" [value]="d">{{ d }}</option>
+    </select> Ngày
+
+    <select [(ngModel)]="selectedMonth">
+      <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+    </select> Tháng
+
+    <select [(ngModel)]="selectedYear">
+      <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+    </select> Năm
+
+    <button (click)="convert()">Chuyển đổi</button>
+  </div>
+
+  <div class="subtitle">Âm Lịch</div>
+
+  <table *ngIf="detail" border="1" style="margin:10px auto; width:90%;">
+    <tr><td>Thứ trong tuần</td><td style="color:red">{{ detail.weekday }}</td></tr>
+    <tr><td>Ngày dương</td><td style="color:red">{{ detail.solarDate }}</td></tr>
+    <tr><td>Ngày âm</td><td style="color:red">{{ detail.lunarDate }}</td></tr>
+    <tr><td>Năm</td><td style="color:red">{{ detail.lunarYearName }}</td></tr>
+    <tr><td>Tháng</td><td style="color:red">{{ detail.lunarMonthName }}</td></tr>
+    <tr><td>Ngày</td><td style="color:red">{{ detail.lunarDayName }}</td></tr>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<p>exercise14 works!</p>
+<div *ngFor="let group of categories" style="margin-bottom: 30px;">
+    <table border="1" style="width: 50%; border-collapse: collapse;">
+        <tr>
+            <th colspan="2">Ma Danh Muc</th>
+            <th colspan="2">Ten Danh Muc</th>
+        </tr>
+        <tr>
+            <td colspan="2">{{ group.Cateid }}</td>
+            <td colspan="2">{{ group.CateName }}</td>
+        </tr>
+        <tr>
+            <th>Ma San Pham</th>
+            <th>Ten San Pham</th>
+            <th>Gia San Pham</th>
+            <th>Picture</th>
+        </tr>
+        <tbody>
+            <tr *ngFor="let p of group.Products">
+                <td>{{ p.ProductId }}</td>
+                <td>{{ p.ProductName }}</td>
+                <td>{{ p.Price }}</td>
+                <td>
+                    <img [src]="p.Image" alt="{{ p.ProductName }}" width="100px">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

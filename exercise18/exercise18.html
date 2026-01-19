@@ -1,0 +1,28 @@
+<p>exercise18 works!</p>
+<div>
+  <table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>#</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let group of customersData">
+      <tr>
+        <th colspan="5">{{ group.CustomerTypeId }} - {{ group.CustomerTypeName }}</th>
+      </tr>
+      <tr *ngFor="let cus of group.Customers">
+        <td style="text-align: center;">{{ cus.Id }}</td>
+        <td style="text-align: center;">{{ cus.Name }}</td>
+        <td style="text-align: center;">{{ cus.Email }}</td>
+        <td style="text-align: center;">{{ cus.Age }}</td>
+        <td style="text-align: center;">
+          <img [src]="cus.Image" alt="{{ cus.Name }}" width="140">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
